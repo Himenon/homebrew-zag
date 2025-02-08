@@ -2,7 +2,7 @@ class Zag < Formula
   desc "This library just want to call a library made with Zig lang “Zag.”"
   homepage "https://github.com/Himenon/zag"
   license "MIT"
-  version "0.1.0"
+  version "0.0.5"
 
   livecheck do
     url "https://github.com/Himenon/zag/releases/latest"
@@ -11,8 +11,8 @@ class Zag < Formula
 
   if OS.mac?
     if Hardware::CPU.arm? || Hardware::CPU.in_rosetta2?
-      url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-darwin-aarch64.zip"
-      sha256 "c4d58e06c5c33885b526f4d91a38ca9ebdb9fc3fb4cd547f7d3302055c98e41c" # zag-darwin-aarch64.zip
+      url "https://github.com/Himenon/zag/releases/download/v#{version}/zag.zip"
+      sha256 "5849e0d71163c1082ba496b6da07970148c794c8eb58cae3289cee07b1f58dd8" # zag-darwin-aarch64.zip
   #   elsif Hardware::CPU.avx2?
   #     url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-darwin-x64.zip"
   #     sha256 "2f7d5a9cd90bc4f28449dc7b76a5e9eefade03e119f1cd4e3f941b92b26c6595" # zag-darwin-x64.zip
