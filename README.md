@@ -1,18 +1,25 @@
-# Zag
+# homebrew-zag
 
-## How do I install these formulae?
+## Install
 
-`brew install Himenon/zag/<formula>`
-
-Or `brew tap Himenon/zag` and then `brew install `.
-
-Or, in a [`brew bundle`](https://github.com/Homebrew/homebrew-bundle) `Brewfile`:
-
-```ruby
-tap "Himenon/zag"
-brew "<formula>"
+```bash
+brew tap Himenon/zag
+brew install zag
 ```
 
-## Documentation
+## Upgrade
 
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+To upgrade, it is recommended that you run the `brew upgrade` command.
+
+```bash
+brew upgrade zag
+```
+
+## Uninstall
+
+If you want to uninstall Zag, run the following commands:
+
+```bash
+brew uninstall zag
+brew untap Himenon/zag
+```
