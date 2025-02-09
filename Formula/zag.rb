@@ -12,7 +12,7 @@ class Zag < Formula
   if OS.mac?
     if Hardware::CPU.arm? || Hardware::CPU.in_rosetta2?
       url "https://github.com/Himenon/zag/releases/download/v#{version}/zag.zip"
-      sha256 "5849e0d71163c1082ba496b6da07970148c794c8eb58cae3289cee07b1f58dd8" # zag-darwin-aarch64.zip
+      sha256 "fc2513a3049837318222a638331d5de1becb3b0403ac3f07b0ca629da0856409" # zag-darwin-aarch64.zip
   #   elsif Hardware::CPU.avx2?
   #     url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-darwin-x64.zip"
   #     sha256 "2f7d5a9cd90bc4f28449dc7b76a5e9eefade03e119f1cd4e3f941b92b26c6595" # zag-darwin-x64.zip
@@ -30,13 +30,13 @@ class Zag < Formula
   #   else
   #     url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-linux-x64-baseline.zip"
   #     sha256 "cad7756a6ee16f3432a328f8023fc5cd431106822eacfa6d6d3afbad6fdc24db" # zag-linux-x64-baseline.zip
-  #   end
+    end
   else
     odie "Unsupported platform. Please submit a bug report here: https://zag.sh/issues\n#{OS.report}"
   end
 
   def install
-    bin.install "zag"
+    bin.install "bin/zag"
     ENV["zag_INSTALL"] = "#{bin}"
   end
 
