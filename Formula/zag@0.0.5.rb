@@ -2,7 +2,7 @@ class Zag < Formula
   desc "This library just want to call a library made with Zig lang “Zag.”"
   homepage "https://github.com/Himenon/zag"
   license "MIT"
-  version "0.0.8"
+  version "0.0.5"
 
   livecheck do
     url "https://github.com/Himenon/zag/releases/latest"
@@ -20,10 +20,10 @@ class Zag < Formula
   #     url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-darwin-x64-baseline.zip"
   #     sha256 "0f3b6e87d862d4016f8d95da177bc9136ca2e950f3d6d3d226a35d7061fff0f1" # zag-darwin-x64-baseline.zip
   #   end
-  elsif OS.linux?
-    if Hardware::CPU.arm?
-      url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-linux-aarch64.zip"
-      sha256 "d1dbaa3e9af24549fad92bdbe4fb21fa53302cd048a8f004e85a240984c93d4d" # zag-linux-aarch64.zip
+  # elsif OS.linux?
+  #   if Hardware::CPU.arm?
+  #     url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-linux-aarch64.zip"
+  #     sha256 "d1dbaa3e9af24549fad92bdbe4fb21fa53302cd048a8f004e85a240984c93d4d" # zag-linux-aarch64.zip
   #   elsif Hardware::CPU.avx2?
   #     url "https://github.com/Himenon/zag/releases/download/zag-v#{version}/zag-linux-x64.zip"
   #     sha256 "3f4efb8afd1f84ac2a98c04661c898561d1d35527d030cb4571e99b7c85f5079" # zag-linux-x64.zip
