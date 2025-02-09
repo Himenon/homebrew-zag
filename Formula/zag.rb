@@ -36,7 +36,7 @@ class Zag < Formula
   end
 
   def install
-    bin.install "zag-out/bin"
+    bin.install "bin/zag"
     ENV["zag_INSTALL"] = "#{bin}"
   end
 
