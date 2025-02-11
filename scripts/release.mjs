@@ -17,27 +17,11 @@ const url = `https://api.github.com/repos/Himenon/zag/releases/tags/v${version}`
 
 function fetchJson(url) {
   return new Promise((resolve, reject) => {
-    https.get(
-      url,
-      {
-        headers: {
-          "User-Agent": "Node.js",
-          Accept: "application/vnd.github.v3+json",
-        },
-      },
-      (res) => {
-        if (res.statusCode !== 200) {
-          reject(
-            `Did not find release: zag-v${version} [status: ${res.statusCode}]`
-          );
-          return;
-        }
-
-        let data = "";
-        res.on("data", (chunk) => (data += chunk));
-        res.on("end", () => resolve(JSON.parse(data)));
-      }
-    );
+    fetch(url).then((res) => {
+      res.json().then((data) => {
+        resolve(data);
+      });
+    });
   });
 }
 
@@ -70,6 +54,7 @@ async function main() {
   try {
     const release = await fetchJson(url);
     console.log(`Found release: ${release.name}`);
+    console.log(`Fetched Url: ${url}`);
 
     const assets = {};
 
@@ -97,11 +82,7 @@ async function main() {
         }
 
         if (query.startsWith("sha256")) {
-          console.log({
-            query,
-          });
           const asset = query.split("#").at(1)?.trim();
-          console.log(asset);
           if (!asset || !assets[asset]) {
             throw new Error(`Did not find sha256: ${asset}`);
           }
