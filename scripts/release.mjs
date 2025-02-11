@@ -84,7 +84,7 @@ async function main() {
       })
       .join("\n");
 
-    const versionedClass = `class zagAT${version.replace(/\./g, "")}`;
+    const versionedClass = `class ZagAT${version.replace(/\./g, "")}`;
     const versionedFormula = formula.replace(/class Zag/, versionedClass);
 
     fs.writeFileSync(`Formula/zag@${version}.rb`, versionedFormula);

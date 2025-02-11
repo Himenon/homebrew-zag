@@ -1,4 +1,4 @@
-class Zag < Formula
+class Zag008 < Formula
   desc "This library just want to call a library made with Zig lang “Zag.”"
   homepage "https://github.com/Himenon/zag"
   license "MIT"
