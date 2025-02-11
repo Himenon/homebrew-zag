@@ -23,3 +23,11 @@ If you want to uninstall Zag, run the following commands:
 brew uninstall zag
 brew untap Himenon/zag
 ```
+
+## Update Version
+
+```bash
+node scripts/release.mjs x.y.z
+```
+
+You can find release version <https://github.com/Himenon/zag/releases>.
