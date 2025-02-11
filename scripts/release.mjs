@@ -95,8 +95,13 @@ async function main() {
         if (query.startsWith("version")) {
           return line.replace(/"[0-9.]+"/, `"${version}"`);
         }
+
         if (query.startsWith("sha256")) {
-          const asset = query.split("#")[1]?.trim();
+          console.log({
+            query,
+          });
+          const asset = query.split("#").at(1)?.trim();
+          console.log(asset);
           if (!asset || !assets[asset]) {
             throw new Error(`Did not find sha256: ${asset}`);
           }
