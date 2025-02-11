@@ -15,62 +15,54 @@ console.log(`Releasing zag on Homebrew: v${version}`);
 
 const url = `https://api.github.com/repos/Himenon/zag/releases/tags/v${version}`;
 
-function fetchJson(url) {
-  return new Promise((resolve, reject) => {
-    fetch(url).then((res) => {
-      res.json().then((data) => {
-        resolve(data);
-      });
-    });
-  });
-}
+/**
+ *
+ * @param {string} url
+ * @returns {Promise<{ assets: { name: string; browser_download_url: string; }[] }>}
+ */
+const fetchGitHubRelease = async (url) => {
+  const res = await fetch(url);
+  return res.json();
+};
 
-function fetchAsset(url) {
-  return new Promise((resolve, reject) => {
-    https.get(url, { headers: { "User-Agent": "Node.js" } }, (res) => {
-      if (
-        res.statusCode &&
-        res.statusCode >= 300 &&
-        res.statusCode < 400 &&
-        res.headers.location
-      ) {
-        return resolve(fetchAsset(res.headers.location));
-      }
-      if (res.statusCode !== 200) {
-        reject(`Did not find asset: [status: ${res.statusCode}]`);
-        return;
-      }
-
-      const chunks = [];
-      res.on("data", (chunk) => chunks.push(chunk));
-      res.on("end", () =>
-        resolve({ data: Buffer.concat(chunks), finalUrl: url })
-      );
-    });
-  });
-}
+/**
+ *
+ * @param {string} url
+ * @returns
+ */
+const fetchAsset = async (url) => {
+  const res = await fetch(url);
+  const value = await res.arrayBuffer();
+  const data = Buffer.from(value);
+  return { data, finalUrl: url };
+};
 
 async function main() {
   try {
-    const release = await fetchJson(url);
-    console.log(`Found release: ${release.name}`);
-    console.log(`Fetched Url: ${url}`);
+    const release = await fetchGitHubRelease(url);
+    console.log(`- Found release: ${release.name}`);
+    console.log(`- Fetched Url: ${url}`);
 
+    /**
+     * @type Record<string, string>
+     */
     const assets = {};
 
-    for (const asset of release.assets) {
+    const tasks = release.assets.map(async (asset) => {
       const filename = asset.name;
       if (!filename.endsWith(".zip") || filename.includes("-profile")) {
-        console.log(`Skipped asset: ${filename}`);
-        continue;
+        console.log(`- Skipped asset: ${filename}`);
+        return;
       }
 
       const { data } = await fetchAsset(asset.browser_download_url);
       const sha256 = crypto.createHash("sha256").update(data).digest("hex");
 
-      console.log(`Found asset: ${filename} [sha256: ${sha256}]`);
+      console.log(`- Found asset: ${filename} [sha256: ${sha256}]`);
       assets[filename] = sha256;
-    }
+    });
+
+    await Promise.all(tasks);
 
     let formula = fs.readFileSync("Formula/zag.rb", "utf8");
     formula = formula
@@ -93,17 +85,18 @@ async function main() {
       .join("\n");
 
     const versionedClass = `class zagAT${version.replace(/\./g, "")}`;
-    const versionedFormula = formula.replace(/class zag/, versionedClass);
+    const versionedFormula = formula.replace(/class Zag/, versionedClass);
+
     fs.writeFileSync(`Formula/zag@${version}.rb`, versionedFormula);
-    console.log(`Saved Formula/zag@${version}.rb`);
+    console.log(`- Saved Formula/zag@${version}.rb`);
 
     fs.writeFileSync("Formula/zag.rb", formula);
-    console.log("Saved Formula/zag.rb");
+    console.log("- Saved Formula/zag.rb");
 
     let readme = fs.readFileSync("README.md", "utf8");
     readme = readme.replace(/zag@[0-9]+\.[0-9]+\.[0-9]+/, `zag@${version}`);
     fs.writeFileSync("README.md", readme);
-    console.log("Saved README.md");
+    console.log("- Update README.md");
 
     console.log("Done");
     process.exit(0);
@@ -113,4 +106,6 @@ async function main() {
   }
 }
 
-main();
+await main().then((error) => {
+  process.exit(1);
+});
